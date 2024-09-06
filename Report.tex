@@ -1,0 +1,139 @@
+\documentclass{article}
+	\usepackage{pdfpages}
+	\usepackage[text={18cm,21cm},centering]{geometry}
+	\usepackage[utf8]{inputenc} 
+	\usepackage{amsmath,amssymb,amsfonts,latexsym,cancel} 
+	\usepackage[T1]{fontenc} % Comandos personales - especiales 
+	\usepackage{titlesec} 
+	\usepackage{graphicx}
+	\usepackage{listings}
+    \usepackage{hyperref}
+	\newcommand{\sen}{\mathop{\rm sen}\nolimits} %seno 
+	\newcommand{\arcsen}{\mathop{\rm arcsen}\nolimits} 
+	\newcommand{\arcsec}{\mathop{\rm arcsec}\nolimits} 
+	\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}} 
+	\newcommand{\Z}{\mathbb{Z}} \def\max{\mathop{\mbox{\rm máx}}} % máximo \def\min{\mathop{\mbox{\rm mín}}} % mínimo 
+	\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,}
+	
+\begin{document}
+
+\begin{titlepage}
+	\centering
+	{\bfseries\LARGE Proyecto de Optimización \par}
+	\vspace{1cm}
+	\vspace{1cm}
+	{\LARGE Integrantes: \par}
+	{\Large Ana Paula González Muñoz C-312 \par}
+	{\Large Dennis Daniel González Durán C-312 \par}
+	\vfill
+	{\scshape\Large Facultad Matemática y Computación, Universidad de La Habana \par}
+\end{titlepage}
+
+\section{Algoritmos estudiados}
+
+\subsection{Broyden-Fletcher-Goldfarb-Shanno (BFGS)}
+
+El método Broyden-Fletcher-Goldfarb-Shanno (BFGS) es un algoritmo de optimización numérica utilizado para encontrar el mínimo de una función no lineal. Pertenece a la familia de métodos quasi-Newton, que son una generalización de los métodos de Newton para optimización. A diferencia del método de Newton que requiere calcular la matriz Hessiana (segunda derivada) de la función, el BFGS construye una aproximación de la inversa de la Hessiana usando sólo gradientes (primera derivada). Esto lo hace más eficiente en términos de cálculo, especialmente para funciones de muchas variables, y es ampliamente utilizado en problemas de optimización en los que la función objetivo es suave y diferenciable.
+
+El algoritmo BFGS actualiza iterativamente la matriz que aproxima la inversa de la Hessiana y la dirección de descenso, moviéndose hacia el mínimo de la función objetivo. Cada iteración busca una dirección descendente y luego actualiza la matriz con información de los gradientes. El método BFGS es popular debido a su equilibrio entre la rapidez del método de Newton y la simplicidad de los métodos de gradiente. Es particularmente útil en problemas donde evaluar la Hessiana es costoso o impráctico, manteniendo una alta eficiencia en la búsqueda del mínimo de la función.
+
+
+El algoritmo BFGS es uno de los métodos
+quasi-Newton más populares y su fórmula de actualización es:
+
+$$x_{k+1} = x_{k} - H_{k} * \nabla f(x_{k})$$
+
+
+
+\subsection{Evolución Diferencial}
+
+El algoritmo de evolución diferencial es un método de optimización estocástico utilizado para resolver problemas de optimización global en espacios de búsqueda continua. Este algoritmo pertenece a la familia de los algoritmos evolutivos y se inspira en procesos biológicos como la selección natural y la recombinación genética. Funciona manteniendo una población de posibles soluciones que se actualizan iterativamente mediante operadores como la mutación, recombinación y selección. En cada iteración, se crean nuevas soluciones combinando las existentes de manera aleatoria y se seleccionan las mejores para la siguiente generación, buscando minimizar o maximizar una función objetivo.
+
+El diferencial de evolución es especialmente efectivo en problemas donde el espacio de búsqueda es vasto, no lineal o ruidoso. Su simplicidad y capacidad para evitar caer en óptimos locales lo hacen adecuado para una amplia variedad de aplicaciones, desde ingeniería hasta finanzas y biología. A diferencia de otros algoritmos evolutivos, el diferencial de evolución utiliza diferencias entre individuos de la población para guiar la búsqueda, lo que mejora su capacidad para explorar el espacio de soluciones y converger hacia el óptimo global.
+
+
+\section{Problemas a resolver}
+
+Para cada problema, se realizó un análisis tomando en cuenta los siguientes aspectos:
+
+\begin{enumerate}
+	\item Tiempo de ejecución.
+	\item Número de iteraciones.
+	\item Valor de la función objetivo.
+\end{enumerate}
+
+\subsection{Problema 1: Rosenbrock Function}
+
+\begin{equation*}
+\begin{aligned}
+    f_{105}(\mathbf{x}) &= \sum_{i=1}^{D-1} \left[ 100(x_{i+1} - x_i^2)^2 + (x_i - 1)^2 \right] \\
+    &-30 \leq x_i \leq 30
+\end{aligned}
+\end{equation*}
+
+
+
+\subsubsection{Algoritmo de solución}
+Para esta función usamos el algoritmo BFGS para encontrar el mínimo. Para D=2 obtuvimos los siguientes resultados:
+
+\begin{enumerate}
+	\item Tiempo de ejecución: 0.04022049903869629 segundos
+	\item Número de iteraciones: 152
+	\item Valor de la función objetivo: 2.07474544990368e-11
+        \item Punto hallado: [0.99999545 0.99999088]
+\end{enumerate}
+
+
+\subsubsection{Valoración de la Calidad del Punto Hallado}
+El punto hallado [0.99999545 0.99999088] se encuentra bastante cercano al punto mínimo global x*=[1,1]. Esto indica que el algoritmo se acerca bastante al punto del  mínimo global.
+
+\subsubsection{Valoración del tiempo computacional}
+El tiempo computacional para la ejecución del algoritmo fue aceptable en un problema de dos dimensiones. Aunque a medida que D aumenta, el tiempo de cómputo crecerá en consecuencia.
+
+\subsubsection{Variación al Aumentar la Dimensión del Problema}
+
+Al aumentar la dimensión del problema observamos que tanto el punto hallado como el míinimo global se mantienen relativamente estables aunque crece  el timepo de ejecución.
+
+
+\subsection{Problema 2: Salomon Function}
+
+$$
+$$\[
+f_{110}(\mathbf{x}) = 1 - \cos\left(2\pi \sqrt{\sum_{i=1}^{D} x_i^2}\right) + 0.1 \sqrt{\sum_{i=1}^{D} x_i^2}
+\]
+$$
+	-100 \leq x_i \leq 100
+$$
+
+\subsubsection{Algoritmo de solución}
+Para esta función usamos el algoritmo Evolución diferencial para encontrar el mínimo. Para D=2 obtuvimos los siguientes resultados:
+
+\begin{enumerate}
+	\item Tiempo de ejecución: 0.20726966857910156 segundos
+	\item Número de iteraciones: 132
+	\item Valor de la función objetivo: 0
+        \item Punto hallado: [0 0]
+\end{enumerate}
+
+
+\subsubsection{Valoración de la Calidad del Punto Hallado}
+El punto hallado [0 0] es exactamente el punto para el mínimo global.
+
+\subsubsection{Valoración del tiempo computacional}
+El tiempo computacional para la ejecución del algoritmo fue aceptable en un problema de dos dimensiones. Aunque a medida que D aumenta, el tiempo de cómputo crecerá considerablemente
+
+\subsubsection{Variación al Aumentar la Dimensión del Problema}
+
+Al aumentar la dimensión del problema observamos que el punto hallado y el mínimo global no son estables con respecto al punto y el mínimo conocido. El tiempo de ejecución aumenta considerablemente.
+
+
+\section{Conclusiones}
+
+Los algoritmos estudiados, BFGS y Evolución Diferencial, demostraron ser efectivos en la resolución de problemas de optimización al encontrar puntos cercanos o iguales al mínimo global con tiempos computacionales aceptables para problemas de baja dimensión. Sin embargo, al aumentar la dimensión del problema, se observa un incremento significativo en el tiempo de cómputo y, en algunos casos, una menor estabilidad en los puntos hallados, especialmente con la Evolución Diferencial. Esto resalta la importancia de seleccionar el algoritmo adecuado según la naturaleza y la escala del problema a resolver.
+
+
+\end{document}
